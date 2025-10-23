@@ -24,6 +24,7 @@ interface Restaurant {
 
 interface RestaurantDetailsProps {
   restaurant: Restaurant;
+  apiKey: string;
   onLogoClick: () => void;
 }
 
