@@ -4,7 +4,7 @@ import { SearchResults } from "./SearchResults";
 import { RestaurantDetails } from "./RestaurantDetails";
 import { searchNearbyRestaurants } from "../utils/googlePlaces";
 
-const BESTTIME_PUBLIC_KEY = 'pub_e8ac05b32d414b398eb062923f411fa7';
+const BESTTIME_PUBLIC_KEY = (import.meta.env.VITE_BESTTIME_PUBLIC_KEY as string) || '';
 
 interface Restaurant {
   place_id: string;

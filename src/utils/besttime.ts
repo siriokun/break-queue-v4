@@ -1,5 +1,6 @@
-const BESTTIME_PRIVATE_KEY = 'pri_cb22da02f521490e91ef021a88c565c8';
-const BESTTIME_PUBLIC_KEY = 'pub_e8ac05b32d414b398eb062923f411fa7';
+// Read BestTime API keys from Vite environment variables
+const BESTTIME_PRIVATE_KEY = (import.meta.env.VITE_BESTTIME_PRIVATE_KEY as string) || '';
+const BESTTIME_PUBLIC_KEY = (import.meta.env.VITE_BESTTIME_PUBLIC_KEY as string) || '';
 
 // Response from /forecasts/busy endpoint (specific hour/day data)
 export interface BusynessData {

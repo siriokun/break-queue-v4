@@ -24,7 +24,6 @@ interface Restaurant {
 
 interface RestaurantDetailsProps {
   restaurant: Restaurant;
-  apiKey: string;
   onLogoClick: () => void;
 }
 
@@ -299,7 +298,7 @@ function DescriptionContainer({ isEligible }: { isEligible: boolean }) {
 
 
 
-export function RestaurantDetails({ restaurant, apiKey, onLogoClick }: RestaurantDetailsProps) {
+export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetailsProps) {
   const [busynessData, setBusynessData] = useState<BusynessData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

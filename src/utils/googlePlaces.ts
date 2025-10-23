@@ -1,6 +1,7 @@
 import { loadGoogleMaps } from './googleMapsLoader';
 
-const GOOGLE_API_KEY = 'AIzaSyC6okxRPC_gLYYu6mfZI7R9fri34Oy-cho';
+// Read Google API key from Vite environment variables
+const GOOGLE_API_KEY = (import.meta.env.VITE_GOOGLE_API_KEY as string) || '';
 
 export interface Location {
   lat: number;
