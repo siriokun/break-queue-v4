@@ -2,6 +2,7 @@
    suppress the type error because the runtime asset is provided. */
 // @ts-ignore: Could not find module '../imports/svg-vl5fiuk6pd' or its type declarations
 import svgPaths from "../imports/svg-vl5fiuk6pd";
+import videoTransitionGif from '../assets/video-transition.gif';
 
 function Day() {
   // Get current date in user's timezone
@@ -45,9 +46,11 @@ function GraphContainer() {
       <Day />
       <div className="aspect-[375/227.146] relative shrink-0 w-full" data-name="video-transition.mp4">
         <div className="absolute inset-0 overflow-hidden">
-          <video autoPlay className="absolute h-[137.47%] left-[-23.31%] max-w-none top-[-12.77%] w-[146.37%]" controlsList="nodownload" loop playsInline muted>
-            <source src="/src/assets/video-transition.mp4" />
-          </video>
+          <img 
+            src={videoTransitionGif} 
+            alt="Busyness graph animation"
+            className="absolute h-[137.47%] left-[-23.31%] max-w-none top-[-12.77%] w-[146.37%] object-cover"
+          />
         </div>
       </div>
     </div>
@@ -83,7 +86,7 @@ function DescriptionContainer() {
 
 function ContentContainer() {
   return (
-    <div className="content-stretch flex flex-col gap-[54px] min-h-screen items-center relative shrink-0 w-[375px]" data-name="Content Container">
+    <div className="content-stretch flex flex-col gap-[54px] min-h-screen items-center relative shrink-0 w-[375px] mt-15" data-name="Content Transition Container">
       <GraphContainer />
       <DescriptionContainer />
     </div>
@@ -92,7 +95,7 @@ function ContentContainer() {
 
 export function VideoTransition() {
   return (
-    <div className="bg-[#cf010e] relative size-full min-h-screen" data-name="Container">
+    <div className="bg-[#cf010e] relative size-full min-h-[91vh]" data-name="Container">
       <div className="flex flex-col items-center size-full">
         <div className="box-border content-stretch flex flex-col gap-[32px] items-center relative size-full">
           <ContentContainer />
