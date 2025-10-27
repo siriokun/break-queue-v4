@@ -360,9 +360,13 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
     currentHour: new Date().getHours()
   });
 
-  // Show VideoTransition while loading
+  // Show VideoTransition in full page during loading
   if (loading) {
-    return <VideoTransition />;
+    return (
+      <div className="absolute inset-0 z-50">
+        <VideoTransition />
+      </div>
+    );
   }
 
   // If not eligible, show the NotBusyScreen
