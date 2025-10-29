@@ -4,6 +4,7 @@ import { getVenueBusyness, isCurrentHourBusy, type BusynessData } from "../utils
 import { toast } from "sonner";
 import { NotBusyScreen } from "./NotBusyScreen";
 import { VideoTransition } from "./VideoTransition";
+import { VideoProductTransition } from "./VideoProductTransition";
 import ellipseBackground from '../../src/assets/bg-b.png';
 
 interface Restaurant {
@@ -299,9 +300,10 @@ function DescriptionContainer({ isEligible }: { isEligible: boolean }) {
 
 
 
-export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetailsProps) {
+export function RestaurantDetails({ restaurant, apiKey, onLogoClick }: RestaurantDetailsProps) {
   const [busynessData, setBusynessData] = useState<BusynessData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showProductTransition, setShowProductTransition] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -310,9 +312,10 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
 
   const fetchBusynessData = async () => {
     const startTime = Date.now();
-    const MIN_LOADING_TIME = 7000; // 7 seconds minimum
+    const MIN_LOADING_TIME = 7000; // 7 seconds minimum for VideoTransition
     
     setLoading(true);
+    setShowProductTransition(false);
     setError(null);
 
     try {
@@ -336,7 +339,7 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
       console.error('Error fetching busyness data:', err);
       setError('Unable to fetch busyness data');
     } finally {
-      // Ensure minimum loading time of 7 seconds
+      // Ensure minimum loading time of 7 seconds for VideoTransition
       const elapsedTime = Date.now() - startTime;
       const remainingTime = Math.max(0, MIN_LOADING_TIME - elapsedTime);
       
@@ -344,11 +347,18 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
         console.log(`Waiting ${remainingTime}ms to meet minimum loading time`);
         setTimeout(() => {
           setLoading(false);
+          setShowProductTransition(true);
         }, remainingTime);
       } else {
         setLoading(false);
+        setShowProductTransition(true);
       }
     }
+  };
+
+  const handleSwipeUp = () => {
+    console.log('User swiped up to continue');
+    setShowProductTransition(false);
   };
 
   // Check if user is eligible for discount (current hour is in busy_hours)
@@ -360,13 +370,14 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
     currentHour: new Date().getHours()
   });
 
-  // Show VideoTransition in full page during loading
+  // Show VideoTransition while loading
   if (loading) {
-    return (
-      <div className="absolute inset-0 z-50">
-        <VideoTransition />
-      </div>
-    );
+    return <VideoTransition />;
+  }
+
+  // Show VideoProductTransition after VideoTransition - user must swipe to continue
+  if (showProductTransition) {
+    return <VideoProductTransition onSwipeUp={handleSwipeUp} />;
   }
 
   // If not eligible, show the NotBusyScreen
