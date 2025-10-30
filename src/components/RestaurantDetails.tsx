@@ -380,8 +380,8 @@ export function RestaurantDetails({ restaurant, apiKey, onLogoClick }: Restauran
     return <VideoProductTransition onSwipeUp={handleSwipeUp} />;
   }
 
-  // If not eligible, show the NotBusyScreen
-  if (!error && !isEligible) {
+  // If not eligible or no data, show the NotBusyScreen
+  if (!error && (!busynessData || !isEligible)) {
     return <NotBusyScreen onTryAgain={onLogoClick} />;
   }
 

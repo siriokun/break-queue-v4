@@ -85,7 +85,7 @@ function SwipePrompt() {
 
 function Header() {
   return (
-    <div className="absolute content-stretch flex items-center justify-between left-[24px] top-[16px] w-[327px]" data-name="Header">
+    <div className="absolute content-stretch flex items-center justify-between left-1/2 top-[16px] translate-x-[-50%] w-[327px]" data-name="Header">
       <KitKatLogo />
       <div className="content-stretch flex gap-[8px] items-start justify-end relative shrink-0" data-name="Share Button">
         <ShareIcon />
@@ -132,17 +132,17 @@ export function VideoProductTransition({ onSwipeUp }: VideoProductTransitionProp
   return (
     <div 
       ref={containerRef}
-      className="bg-[#cf010e] relative size-full" 
+      className="bg-[#cf010e] relative h-screen w-screen" 
       data-name="Container"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <div className="absolute h-[667px] left-1/2 top-[6px] translate-x-[-50%] w-[375px]" data-name="Background Image">
+      <div className="absolute h-screen left-1/2 bottom-[0px] translate-x-[-50%] w-[375px]" data-name="Background Image">
         <img alt="KitKat product" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgProduct} />
       </div>
       <Header />
-      <div className="absolute bg-[rgba(0,0,0,0.5)] h-[621px] left-[-4px] top-0 w-[383px]" data-name="Background" />
+      <div className="absolute bg-[rgba(0,0,0,0.5)] size-full" data-name="Background" />
       <SwipePrompt />
     </div>
   );
