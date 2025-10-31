@@ -300,7 +300,7 @@ function DescriptionContainer({ isEligible }: { isEligible: boolean }) {
 
 
 
-export function RestaurantDetails({ restaurant, apiKey, onLogoClick }: RestaurantDetailsProps) {
+export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetailsProps) {
   const [busynessData, setBusynessData] = useState<BusynessData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showProductTransition, setShowProductTransition] = useState(false);
