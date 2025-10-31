@@ -48,7 +48,7 @@ function Subtitle() {
   );
 }
 
-function ContentContainer() {
+function ContentContainer({ message }: { message?: string }) {
   return (
     <div
       className="content-stretch flex flex-col gap-[16px] items-center relative shrink-0 w-full"
@@ -57,7 +57,7 @@ function ContentContainer() {
       <Subtitle />
       <div className="font-['FranklinGothic_URW:Book',_sans-serif] leading-[normal] min-w-full not-italic relative shrink-0 text-[#f2f2f2] text-[16px] text-center tracking-[-0.304px] w-[min-content]">
         <p className="mb-0">
-          This location isn't busy enough right now.
+          {message || "This location isn't busy enough right now."}
         </p>
         <p>Try another location or come back later!</p>
       </div>
@@ -86,15 +86,17 @@ function Button({ onClick }: { onClick: () => void }) {
 
 function MessageContainer({
   onTryAgain,
+  message,
 }: {
   onTryAgain: () => void;
+  message?: string;
 }) {
   return (
     <div
       className="content-stretch flex flex-col gap-[69px] items-center relative shrink-0 w-full"
       data-name="Message Container"
     >
-      <ContentContainer />
+      <ContentContainer message={message} />
       <Button onClick={onTryAgain} />
     </div>
   );
@@ -102,23 +104,27 @@ function MessageContainer({
 
 function BodyContent({
   onTryAgain,
+  message,
 }: {
   onTryAgain: () => void;
+  message?: string;
 }) {
   return (
     <div
       className="absolute content-stretch flex flex-col h-[403px] items-center justify-center left-[20px] top-[172px] w-[335px]"
       data-name="Body Content"
     >
-      <MessageContainer onTryAgain={onTryAgain} />
+      <MessageContainer onTryAgain={onTryAgain} message={message} />
     </div>
   );
 }
 
 export function NotBusyScreen({
   onTryAgain,
+  message,
 }: {
   onTryAgain: () => void;
+  message?: string;
 }) {
   return (
     <div
@@ -135,7 +141,7 @@ export function NotBusyScreen({
         }}
       />
       <Logo />
-      <BodyContent onTryAgain={onTryAgain} />
+      <BodyContent onTryAgain={onTryAgain} message={message} />
     </div>
   );
 }

@@ -179,7 +179,7 @@ export async function getVenueBusyness(
 /**
  * Check if current hour is busy based on busyness intensity
  * @param busynessData - The forecast data from BestTime /forecasts/busy API
- * @returns true if busyness intensity is 70% or higher, false otherwise
+ * @returns true if busyness intensity is 50% or higher, false otherwise
  */
 export function isCurrentHourBusy(busynessData: BusynessData): boolean {
   if (!busynessData.analysis) {
@@ -194,11 +194,11 @@ export function isCurrentHourBusy(busynessData: BusynessData): boolean {
     
     // -1 means no data available
     if (busyness === -1) {
-      return false;
+      throw new Error("Location is not in busy hour");
     }
     
-    // 70% or higher is considered busy enough for discount
-    return busyness >= 70;
+    // 50% or higher is considered busy enough for discount
+    return busyness >= 50;
   }
 
   // Fallback: check hour_analysis intensity_nr
@@ -208,11 +208,11 @@ export function isCurrentHourBusy(busynessData: BusynessData): boolean {
     
     // -1 means no data available
     if (intensity === -1) {
-      return false;
+      throw new Error("Location is not in busy hour");
     }
     
-    // 70% or higher is considered busy enough for discount
-    return intensity >= 70;
+    // 50% or higher is considered busy enough for discount
+    return intensity >= 50;
   }
 
   console.log('No busyness metrics found in response');

@@ -381,7 +381,18 @@ export function RestaurantDetails({ restaurant, apiKey, onLogoClick }: Restauran
   }
 
   // If not eligible or no data, show the NotBusyScreen
-  if (!error && (!busynessData || !isEligible)) {
+  try {
+    if (!error && (!busynessData || !isEligible)) {
+      // If we have data but not eligible, check if it's due to no data available
+      if (busynessData) {
+        isCurrentHourBusy(busynessData); // This will throw if -1
+      }
+      return <NotBusyScreen onTryAgain={onLogoClick} />;
+    }
+  } catch (e) {
+    if (e instanceof Error) {
+      return <NotBusyScreen onTryAgain={onLogoClick} message={e.message} />;
+    }
     return <NotBusyScreen onTryAgain={onLogoClick} />;
   }
 
