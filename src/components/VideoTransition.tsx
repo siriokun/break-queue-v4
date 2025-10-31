@@ -62,7 +62,7 @@ function DescriptionTextContainer() {
     <div className="basis-0 bg-[#700808] grow min-h-px min-w-px relative shrink-0 w-full -mt-px" data-name="Description Text Container">
       <div className="flex flex-row items-center justify-center size-full">
         <div className="box-border content-stretch flex gap-[10px] items-center justify-center px-[32px] py-0 relative size-full">
-          <p className="basis-0 font-['DM_Sans:Regular',_sans-serif] font-normal grow leading-[normal] min-h-px min-w-px relative shrink-0 text-[#f2f2f2] text-[16px] text-center tracking-[-0.304px]" style={{ fontVariationSettings: "'opsz' 14" }}>
+          <p className="basis-0 font-['DM_Sans:Regular',_sans-serif] font-normal grow leading-[normal] min-h-px min-w-px relative shrink-0 text-[#f2f2f2] text-[16px] text-center tracking-[-0.304px] hidden" style={{ fontVariationSettings: "'opsz' 14" }}>
             Lorem ipsum dolor sit amet consectetur. Nibh convallis nam neque ut eget.
           </p>
         </div>
@@ -86,7 +86,7 @@ function DescriptionContainer() {
 
 function ContentContainer() {
   return (
-    <div className="content-stretch flex flex-col gap-[54px] min-h-screen items-center relative shrink-0 w-[375px] mt-15" data-name="Content Transition Container">
+    <div className="content-stretch flex flex-col gap-[54px] min-h-[94vh] items-center relative shrink-0 w-[375px] mt-15" data-name="Content Transition Container">
       <GraphContainer />
       <DescriptionContainer />
     </div>
@@ -95,7 +95,7 @@ function ContentContainer() {
 
 export function VideoTransition() {
   return (
-    <div className="bg-[#cf010e] relative size-full min-h-[91vh]" data-name="Container">
+    <div className="bg-[#cf010e] relative size-full min-h-[91vh] overflow-hidden" data-name="Container">
       <div className="flex flex-col items-center size-full">
         <div className="box-border content-stretch flex flex-col gap-[32px] items-center relative size-full">
           <ContentContainer />

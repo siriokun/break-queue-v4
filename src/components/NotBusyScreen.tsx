@@ -111,7 +111,7 @@ function BodyContent({
 }) {
   return (
     <div
-      className="absolute content-stretch flex flex-col h-[403px] items-center justify-center left-[20px] top-[172px] w-[335px]"
+      className="absolute content-stretch flex flex-col h-[403px] items-center justify-center left-[0px] top-[172px] w-full"
       data-name="Body Content"
     >
       <MessageContainer onTryAgain={onTryAgain} message={message} />
@@ -132,11 +132,11 @@ export function NotBusyScreen({
       data-name="Container"
     >
       <div
-        className="absolute h-[645px] left-[calc(50%-0.5px)] top-[30px] translate-x-[-50%] w-[375px]"
+        className="absolute h-[645px] left-[calc(50%-0.5px)] top-[30px] translate-x-[-50%] w-full"
         style={{
           backgroundImage: `url(${ellipseBackground})`,
-          backgroundSize: "100%",
-          backgroundPosition: "0",
+          backgroundSize: "101%",
+          backgroundPosition: "center 15px",
           backgroundRepeat: "no-repeat",
         }}
       />

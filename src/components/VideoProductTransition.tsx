@@ -138,7 +138,7 @@ export function VideoProductTransition({ onSwipeUp }: VideoProductTransitionProp
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <div className="absolute h-screen left-1/2 bottom-[0px] translate-x-[-50%] w-[375px]" data-name="Background Image">
+      <div className="absolute h-screen left-1/2 bottom-[0px] translate-x-[-50%] w-full" data-name="Background Image">
         <img alt="KitKat product" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgProduct} />
       </div>
       <Header />

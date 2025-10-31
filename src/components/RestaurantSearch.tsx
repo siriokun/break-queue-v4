@@ -78,7 +78,7 @@ function Search({
   onChange: (value: string) => void;
 }) {
   return (
-    <div className="absolute bg-white box-border content-stretch flex items-center justify-between left-[20px] pl-[24px] pr-[8px] py-[8px] rounded-[10000px] top-[90px] w-[337px] z-10" data-name="Search">
+    <div className="absolute bg-white box-border content-stretch flex items-center justify-between left-[20px] pl-[24px] pr-[8px] py-[8px] rounded-[10000px] top-[90px] w-[337px] z-5" data-name="Search">
       <div className="content-stretch flex gap-[8px] items-center relative shrink-0 flex-1" data-name="Search Input Container">
         <input
           type="text"
@@ -152,7 +152,7 @@ export function RestaurantSearch({ initialLocation, initialCoords, onBack }: Res
 
   return (
     <div className="bg-[#cf010e] relative min-h-screen w-full" data-name="Container">
-      <div className="relative w-full min-h-screen max-w-[375px] mx-auto">
+      <div className="relative w-full min-h-screen w-full mx-auto">
         <Header onBack={selectedRestaurant ? handleBackToList : onBack} />
         <Search 
           value={filterQuery}
