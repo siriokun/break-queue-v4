@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import svgPaths from "../imports/svg-dmrbrm1nd7";
 import { getVenueBusyness, isCurrentHourBusy, type BusynessData } from "../utils/besttime";
+import { isNearSpecialLocation } from "../utils/geolocation";
 import { toast } from "sonner";
 import { NotBusyScreen } from "./NotBusyScreen";
 import { VideoTransition } from "./VideoTransition";
 import { VideoProductTransition } from "./VideoProductTransition";
+import { SplashTransition } from "./SplashTransition";
 import ellipseBackground from '../../src/assets/bg-b.png';
 
 interface Restaurant {
@@ -199,7 +201,7 @@ function TextContainer() {
 
 function Coupon() {
   return (
-    <div className="box-border content-stretch flex flex-col gap-[16px] h-[160px] items-center justify-center overflow-clip relative rounded-[21.333px] shadow-[0px_0px_16px_0px_rgba(0,0,0,0.25)] shrink-0 w-[300px]" data-name="Coupon">
+    <div className="box-border content-stretch flex flex-col gap-[16px] h-[160px] items-center justify-center overflow-clip relative rounded-[21.333px] shrink-0 w-[300px]" data-name="Coupon">
       <div className="absolute bottom-0 h-[160px] left-0 w-[297.778px]" data-name="Shape">
         <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 298 160">
           <path d={svgPaths.pdda58c0} fill="var(--fill-0, #BA1221)" id="Shape" />
@@ -304,9 +306,27 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
   const [busynessData, setBusynessData] = useState<BusynessData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showProductTransition, setShowProductTransition] = useState(false);
+  const [showSplashTransition, setShowSplashTransition] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
 
   useEffect(() => {
+    // Get user's current location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const location = {
+            lat: position.coords.latitude,
+            lon: position.coords.longitude
+          };
+          setUserLocation(location);
+          console.log('User location obtained:', location);
+        },
+        (error) => {
+          console.error('Error getting user location:', error);
+        }
+      );
+    }
     fetchBusynessData();
   }, [restaurant]);
 
@@ -316,6 +336,7 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
     
     setLoading(true);
     setShowProductTransition(false);
+    setShowSplashTransition(false);
     setError(null);
 
     try {
@@ -359,13 +380,34 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
   const handleSwipeUp = () => {
     console.log('User swiped up to continue');
     setShowProductTransition(false);
+    setShowSplashTransition(true);
   };
 
-  // Check if user is eligible for discount (current hour is in busy_hours)
-  const isEligible = busynessData ? isCurrentHourBusy(busynessData) : false;
+  const handleSplashComplete = () => {
+    console.log('Splash transition complete');
+    setShowSplashTransition(false);
+  };
+
+  // Check if user is near special location for eligibility bypass
+  const isNearSpecial = userLocation 
+    ? isNearSpecialLocation(userLocation.lat, userLocation.lon, 1) 
+    : false;
+
+  // Check if user is eligible for discount
+  // Eligible if: (1) near special location OR (2) current hour is in busy_hours
+  let isEligible = false;
+  if (isNearSpecial) {
+    isEligible = true;
+    console.log('✅ Eligibility bypass: User is within 1km of special location');
+  } else if (busynessData && isCurrentHourBusy(busynessData)) {
+    isEligible = true;
+    console.log('✅ Eligibility: Current hour is busy');
+  }
   
   console.log('Eligibility check:', {
     hasData: !!busynessData,
+    userLocation,
+    isNearSpecial,
     isEligible,
     currentHour: new Date().getHours()
   });
@@ -380,19 +422,13 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
     return <VideoProductTransition onSwipeUp={handleSwipeUp} />;
   }
 
-  // If not eligible or no data, show the NotBusyScreen
-  try {
-    if (!error && (!busynessData || !isEligible)) {
-      // If we have data but not eligible, check if it's due to no data available
-      if (busynessData) {
-        isCurrentHourBusy(busynessData); // This will throw if -1
-      }
-      return <NotBusyScreen onTryAgain={onLogoClick} />;
-    }
-  } catch (e) {
-    if (e instanceof Error) {
-      return <NotBusyScreen onTryAgain={onLogoClick} message={e.message} />;
-    }
+  // Show SplashTransition after user swipes
+  if (showSplashTransition) {
+    return <SplashTransition onComplete={handleSplashComplete} />;
+  }
+
+  // If not eligible, show the NotBusyScreen
+  if (!error && !isEligible) {
     return <NotBusyScreen onTryAgain={onLogoClick} />;
   }
 
@@ -401,12 +437,12 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
       <div className="flex flex-col items-center size-full">
         <div className="box-border content-stretch flex flex-col items-center justify-between pb-[56px] pt-[24px] px-[20px] relative size-full">
           <div 
-            className="absolute h-[560px] left-[calc(50%-0.5px)] top-[-180px] translate-x-[-50%] w-[666px]" 
+            className="absolute h-[645px] left-[calc(50%-0.5px)] top-[30px] translate-x-[-50%] w-full" 
             data-name="Ellipse Background"
             style={{
               backgroundImage: `url(${ellipseBackground})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
+              backgroundSize: '101%',
+              backgroundPosition: 'center 15px',
               backgroundRepeat: 'no-repeat'
             }}
           />

@@ -146,18 +146,18 @@ export function RestaurantSearch({ initialLocation, initialCoords, onBack }: Res
     setSelectedRestaurant(restaurant);
   };
 
-  const handleBackToList = () => {
-    setSelectedRestaurant(null);
-  };
-
   return (
     <div className="bg-[#cf010e] relative min-h-screen w-full" data-name="Container">
-      <div className="relative w-full min-h-screen w-full mx-auto">
-        <Header onBack={selectedRestaurant ? handleBackToList : onBack} />
-        <Search 
-          value={filterQuery}
-          onChange={setFilterQuery}
-        />
+      <div className="relative w-full min-h-screen mx-auto">
+        {!selectedRestaurant && (
+          <>
+            <Header onBack={onBack} />
+            <Search 
+              value={filterQuery}
+              onChange={setFilterQuery}
+            />
+          </>
+        )}
         
         {selectedRestaurant ? (
           <RestaurantDetails 

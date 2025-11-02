@@ -73,8 +73,8 @@ function DescriptionTextContainer() {
 
 function DescriptionContainer() {
   return (
-    <div className="basis-0 content-stretch flex flex-col grow items-center min-h-px min-w-px relative shrink-0 w-[375px]" data-name="Description Container">
-      <div className="h-[42.002px] relative shrink-0 w-[375px]" data-name="Intersect">
+    <div className="basis-0 content-stretch flex flex-col grow items-center min-h-px min-w-px relative shrink-0 w-full" data-name="Description Container">
+      <div className="h-[42.002px] relative shrink-0 w-full" data-name="Intersect">
         <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 375 42">
           <path d={svgPaths.pe471f00} fill="var(--fill-0, #700808)" id="Intersect" />
         </svg>
@@ -86,7 +86,7 @@ function DescriptionContainer() {
 
 function ContentContainer() {
   return (
-    <div className="content-stretch flex flex-col gap-[54px] min-h-[94vh] items-center relative shrink-0 w-[375px] mt-15" data-name="Content Transition Container">
+    <div className="content-stretch flex flex-col gap-[54px] min-h-[94vh] items-center relative shrink-0 w-full mt-15" data-name="Content Transition Container">
       <GraphContainer />
       <DescriptionContainer />
     </div>

@@ -74,7 +74,7 @@ export function SearchResults({ restaurants, loading, onRestaurantClick }: Searc
   const limitedRestaurants = restaurants.slice(0, 10);
 
   return (
-    <div className="absolute bg-white box-border content-stretch flex gap-[8px] h-[calc(100vh-180px)] items-start left-[20px] overflow-hidden pl-[16px] pr-[16px] py-0 rounded-[24px] top-[162px] w-[calc(100%-40px)] max-w-[337px]" data-name="Result Box">
+    <div className="absolute bg-white box-border content-stretch flex gap-[8px] h-[calc(100vh-180px)] items-start left-[20px] overflow-auto pl-[16px] pr-[16px] py-0 rounded-[24px] top-[162px] w-[calc(100%-40px)] max-w-[337px]" data-name="Result Box">
       <div className="basis-0 box-border content-stretch flex flex-col gap-[16px] grow items-start min-h-px min-w-px overflow-x-clip overflow-y-auto px-0 py-[24px] relative shrink-0 w-full" data-name="Content">
         {loading ? (
           <LoadingState />

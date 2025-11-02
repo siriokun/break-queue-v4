@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import svgPaths from "../imports/svg-6mfel8ih7t";
 import swipePaths from "../imports/svg-s1d88obyoo";
 import imgProduct from "../../src/assets/bg-can.png";
+import splashImage from "../../src/assets/bg-can-splash.png";
 
 function KitKatLogo() {
   return (
@@ -105,27 +106,48 @@ export function VideoProductTransition({ onSwipeUp }: VideoProductTransitionProp
   const containerRef = useRef<HTMLDivElement>(null);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isSwiping, setIsSwiping] = useState(false);
+  const [swipeProgress, setSwipeProgress] = useState(0);
 
   // Minimum swipe distance (in pixels)
   const minSwipeDistance = 50;
+  const maxSwipeDistance = 300; // Maximum distance to track for animation
 
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientY);
+    setSwipeProgress(0);
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
     setTouchEnd(e.targetTouches[0].clientY);
+    
+    if (touchStart) {
+      const distance = touchStart - e.targetTouches[0].clientY;
+      // Calculate progress (0 to 1) based on swipe distance
+      const progress = Math.max(0, Math.min(1, distance / maxSwipeDistance));
+      setSwipeProgress(progress);
+    }
   };
 
   const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
+    if (!touchStart || !touchEnd) {
+      setSwipeProgress(0);
+      return;
+    }
     
     const distance = touchStart - touchEnd;
     const isUpSwipe = distance > minSwipeDistance;
     
     if (isUpSwipe && onSwipeUp) {
-      onSwipeUp();
+      setIsSwiping(true);
+      // Delay callback to allow animation to complete
+      setTimeout(() => {
+        onSwipeUp();
+      }, 1500);
+    } else {
+      // Reset if swipe wasn't enough
+      setSwipeProgress(0);
     }
   };
 
@@ -138,12 +160,34 @@ export function VideoProductTransition({ onSwipeUp }: VideoProductTransitionProp
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <div className="absolute h-screen left-1/2 bottom-[0px] translate-x-[-50%] w-full" data-name="Background Image">
-        <img alt="KitKat product" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgProduct} />
-      </div>
-      <Header />
-      <div className="absolute bg-[rgba(0,0,0,0.5)] size-full" data-name="Background" />
-      <SwipePrompt />
+      {/* Product screen - slides up during swipe */}
+      <motion.div 
+        className="absolute inset-0 z-10"
+        animate={isSwiping ? { y: "-100%", opacity: 0 } : { y: 0, opacity: 1 }}
+        style={{ y: `-${swipeProgress * 100}%` }}
+        transition={{ duration: 0.4, ease: "easeInOut" }}
+      >
+        <div className="absolute h-screen left-1/2 bottom-0 translate-x-[-50%] w-full" data-name="Background Image">
+          <img alt="KitKat product" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgProduct} />
+        </div>
+        <Header />
+        <div className="absolute bg-[rgba(0,0,0,0.5)] h-screen left-0 top-0 w-full" data-name="Background" />
+        <SwipePrompt />
+      </motion.div>
+
+      {/* Splash screen - revealed during swipe from bottom */}
+      <motion.div 
+        className="absolute inset-0 z-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: swipeProgress }}
+        transition={{ duration: 0.1 }}
+      >
+        <img 
+          alt="Break the Queue" 
+          className="absolute inset-0 object-cover pointer-events-none size-full" 
+          src={splashImage} 
+        />
+      </motion.div>
     </div>
   );
 }
