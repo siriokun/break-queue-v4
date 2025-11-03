@@ -39,41 +39,100 @@ function toRadians(degrees: number): number {
 }
 
 /**
- * Special location coordinates for eligibility bypass
+ * Special location type definition
  */
-export const SPECIAL_LOCATION = {
-  lat: -6.916375267767954,
-  lon: 107.60944954796743
-};
+export interface SpecialLocation {
+  name: string;
+  lat: number;
+  lon: number;
+}
 
 /**
- * Check if user is within specified radius of special location
+ * Array of special location coordinates for eligibility bypass
+ * Add or remove locations as needed
+ */
+export const SPECIAL_LOCATIONS: SpecialLocation[] = [
+  {
+    name: 'Fork',
+    lat: -6.9076026129855554,
+    lon: 107.60913267237055
+  },
+  {
+    name: 'La Baraga Cafe',
+    lat: -6.917333973912754,
+    lon: 107.60943446774033
+  },
+  {
+    name: 'Ibu Tuty Kue',
+    lat: -6.950205443229705,
+    lon: 107.6829845965765
+  },
+  {
+    name: 'Fook Yew - De Entrance Arkadia',
+    lat: -6.300338715353493,
+    lon: 106.83362878465664
+  },
+  {
+    name: 'Canary Restaurant',
+    lat: -6.301014231500035,
+    lon: 106.83461060979064
+  }
+  // Add more locations here as needed:
+  // {
+  //   name: 'Location Name',
+  //   lat: YOUR_LATITUDE,
+  //   lon: YOUR_LONGITUDE
+  // },
+];
+
+/**
+ * Check if user is within specified radius of any special location
  * @param userLat User's current latitude
  * @param userLon User's current longitude
  * @param radiusKm Radius in kilometers (default: 1 km)
- * @returns true if user is within radius
+ * @returns Object with isNear boolean and nearest location if found
  */
 export function isNearSpecialLocation(
   userLat: number,
   userLon: number,
   radiusKm: number = 1
-): boolean {
-  const distance = calculateDistance(
-    userLat,
-    userLon,
-    SPECIAL_LOCATION.lat,
-    SPECIAL_LOCATION.lon
-  );
+): { isNear: boolean; location: SpecialLocation | null; distance: number | null } {
+  let nearestLocation: SpecialLocation | null = null;
+  let nearestDistance: number | null = null;
 
-  const isNear = distance <= radiusKm;
+  for (const location of SPECIAL_LOCATIONS) {
+    const distance = calculateDistance(
+      userLat,
+      userLon,
+      location.lat,
+      location.lon
+    );
 
-  console.log('Special location check:', {
+    if (distance <= radiusKm) {
+      // Found a location within radius
+      if (nearestDistance === null || distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestLocation = location;
+      }
+    }
+  }
+
+  const isNear = nearestLocation !== null;
+
+  console.log('Special locations check:', {
     userLocation: { lat: userLat, lon: userLon },
-    specialLocation: SPECIAL_LOCATION,
-    distance: `${distance.toFixed(3)} km`,
+    totalSpecialLocations: SPECIAL_LOCATIONS.length,
     radiusKm,
-    isNear
+    isNear,
+    nearestLocation: nearestLocation ? {
+      name: nearestLocation.name,
+      distance: `${nearestDistance?.toFixed(3)} km`
+    } : null
   });
 
-  return isNear;
+  return {
+    isNear,
+    location: nearestLocation,
+    distance: nearestDistance
+  };
 }

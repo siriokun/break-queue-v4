@@ -128,7 +128,7 @@ function Percent() {
 function Component15() {
   return (
     <div className="box-border content-stretch flex items-end pl-0 pr-[7.111px] py-0 relative shrink-0" data-name="15%">
-      <p className="font-['Intro_Black:Regular',_sans-serif] leading-[1.2] mr-[-7.111px] not-italic overflow-ellipsis overflow-hidden relative shrink-0 text-[60px] text-center text-nowrap text-white tracking-[-1.14px] whitespace-pre">15</p>
+      <p className="font-['Intro_Black:Regular',_sans-serif] font-black leading-[1.2] mr-[-7.111px] not-italic overflow-ellipsis overflow-hidden relative shrink-0 text-[60px] text-center text-nowrap text-white tracking-[-1.14px] whitespace-pre">15</p>
       <Percent />
     </div>
   );
@@ -173,7 +173,7 @@ function Title() {
   return (
     <div className="content-stretch flex gap-[4px] items-start justify-center relative shrink-0" data-name="Title">
       <Component15 />
-      <p className="font-['Intro_Black:Regular',_sans-serif] leading-[1.2] not-italic overflow-ellipsis overflow-hidden relative shrink-0 text-[60px] text-center text-nowrap text-white tracking-[-1.14px] whitespace-pre">OFF</p>
+      <p className="font-['Intro_Black:Regular',_sans-serif] font-black leading-[1.2] not-italic overflow-ellipsis overflow-hidden relative shrink-0 text-[60px] text-center text-nowrap text-white tracking-[-1.14px] whitespace-pre">OFF</p>
       <SpikyElement />
       <div className="absolute flex h-[calc(1px*((var(--transform-inner-width)*0.9659258127212524)+(var(--transform-inner-height)*0.2588190734386444)))] items-center justify-center left-[-7.77px] top-[4.74px] w-[calc(1px*((var(--transform-inner-height)*0.9659258127212524)+(var(--transform-inner-width)*0.258819043636322)))]" style={{ "--transform-inner-width": "14.125", "--transform-inner-height": "6.96875" } as React.CSSProperties}>
         <div className="flex-none rotate-[255deg]">
@@ -260,10 +260,10 @@ function Button({ isEligible }: { isEligible: boolean }) {
       }`}
       data-name="Button"
     >
-      <div className={`flex flex-col font-['DM_Sans:Black',_sans-serif] font-black justify-center leading-[0] relative shrink-0 text-[20px] text-nowrap tracking-[-0.38px] ${
+      <div className={`flex flex-col font-['DM_Sans:Black',_sans-serif] font-bold justify-center leading-[0] relative shrink-0 text-[18px] text-nowrap tracking-[-0.38px] ${
         isEligible ? 'text-[#cf010e]' : 'text-gray-500'
       }`} style={{ fontVariationSettings: "'opsz' 14" }}>
-        <p className="leading-[normal] whitespace-pre">Buy Now in Grab</p>
+        <p className="leading-[normal] whitespace-pre">Claim in KitKat vending machine</p>
       </div>
     </button>
   );
@@ -388,17 +388,17 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
     setShowSplashTransition(false);
   };
 
-  // Check if user is near special location for eligibility bypass
-  const isNearSpecial = userLocation 
+  // Check if user is near any special location for eligibility bypass
+  const locationCheck = userLocation 
     ? isNearSpecialLocation(userLocation.lat, userLocation.lon, 1) 
-    : false;
+    : { isNear: false, location: null, distance: null };
 
   // Check if user is eligible for discount
   // Eligible if: (1) near special location OR (2) current hour is in busy_hours
   let isEligible = false;
-  if (isNearSpecial) {
+  if (locationCheck.isNear) {
     isEligible = true;
-    console.log('✅ Eligibility bypass: User is within 1km of special location');
+    console.log(`✅ Eligibility bypass: User is within 1km of special location "${locationCheck.location?.name}" (${locationCheck.distance?.toFixed(3)} km)`);
   } else if (busynessData && isCurrentHourBusy(busynessData)) {
     isEligible = true;
     console.log('✅ Eligibility: Current hour is busy');
@@ -407,7 +407,9 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
   console.log('Eligibility check:', {
     hasData: !!busynessData,
     userLocation,
-    isNearSpecial,
+    nearSpecialLocation: locationCheck.isNear,
+    specialLocationName: locationCheck.location?.name,
+    distanceToSpecial: locationCheck.distance ? `${locationCheck.distance.toFixed(3)} km` : null,
     isEligible,
     currentHour: new Date().getHours()
   });
