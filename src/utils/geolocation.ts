@@ -58,6 +58,11 @@ export const SPECIAL_LOCATIONS: SpecialLocation[] = [
     lon: 106.82170632900214
   },
   {
+    name: 'VML Cafe',
+    lat: -6.223771144368629,
+    lon: 106.82180947935387
+  },
+  {
     name: 'Fork',
     lat: -6.9076026129855554,
     lon: 107.60913267237055
