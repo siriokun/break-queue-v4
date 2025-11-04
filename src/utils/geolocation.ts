@@ -53,9 +53,9 @@ export interface SpecialLocation {
  */
 export const SPECIAL_LOCATIONS: SpecialLocation[] = [
   {
-    name: 'VML Indonesia',
-    lat: -6.218988704061504,
-    lon: 106.82079677606832
+    name: 'VML RDTX',
+    lat: -6.223529065139228,
+    lon: 106.82170632900214
   },
   {
     name: 'Fork',
