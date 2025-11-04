@@ -263,7 +263,7 @@ function Button({ isEligible }: { isEligible: boolean }) {
       <div className={`flex flex-col font-['DM_Sans:Black',_sans-serif] font-bold justify-center leading-[0] relative shrink-0 text-[18px] text-nowrap tracking-[-0.38px] ${
         isEligible ? 'text-[#cf010e]' : 'text-gray-500'
       }`} style={{ fontVariationSettings: "'opsz' 14" }}>
-        <p className="leading-[normal] whitespace-pre">Claim in KitKat vending machine</p>
+        <p className="leading-[normal] whitespace-pre">Claim Now!</p>
       </div>
     </button>
   );
@@ -287,12 +287,12 @@ function DescriptionContainer({ isEligible }: { isEligible: boolean }) {
           <br aria-hidden="true" />
         </span>
         <span className="font-['DM_Sans:Bold',_sans-serif] font-bold" style={{ fontVariationSettings: "'opsz' 14" }}>
-          KitKat's Ready to Drink
+          KitKat Can
         </span>
         <span>
           {` and`}
           <br aria-hidden="true" />
-          take a break in your long queue.
+          take a break from your long queue.
         </span>
       </p>
       <ButtonContainer isEligible={isEligible} />
