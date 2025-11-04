@@ -165,7 +165,7 @@ export async function getVenueBusyness(
     // Step 2: Get forecast data
     if (!venueId) {
       console.error('Failed to obtain venueId');
-      return null;
+      throw new Error('Failed to obtain venueId');
     }
     const forecastData = await getForecastData(venueId);
     

@@ -450,7 +450,7 @@ export function RestaurantDetails({ restaurant, onLogoClick }: RestaurantDetails
           />
           
           {error ? (
-            <div className="flex items-center justify-center h-full">
+            <div className="flex items-center justify-center h-full relative">
               <p className="font-['DM_Sans:9pt_Regular',_sans-serif] font-normal text-[14px] text-white">
                 {error}
               </p>
