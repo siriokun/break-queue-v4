@@ -68,6 +68,11 @@ export const SPECIAL_LOCATIONS: SpecialLocation[] = [
     lon: 107.6829845965765
   },
   {
+    name: 'Roji Ramen RDTX Kuningan',
+    lat: -6.223238986221357,
+    lon: 106.82164435767169
+  },
+  {
     name: 'Fook Yew - De Entrance Arkadia',
     lat: -6.300338715353493,
     lon: 106.83362878465664
